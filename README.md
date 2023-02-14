@@ -72,6 +72,19 @@
 - Very useful for probs that can be broken down recursively until small enough to run sequentially.
 - Tasks can be recursiveTask (return results), and recursiveAction (don't return results)
 
+### Collections
+| Synchronized | Concurrent|
+| :---: | :---: |
+| thraed safety | thread safety + better performance|
+| cannot modify while iterating (ConcurrentModificationException)| can be modified|
+
+### Acquiring locks
+| Synchronized | ReentrantLock|
+| :---: | :---: |
+| no timeout - no unit test - concurrent readers are serialized | allow threads to reenter their mutual exclusive sections (one key can open multiple locks, sothat we are not blocking the whole instance)|
+
+### Legacy code containing shared mutability
+
 #### random thoughts
 - The number of concurrent threads for and app depends on the number of cores associated with its process.
 - Multithreading will be useful when we have IO operations that block threads for a while. Otherwise, it will be unnecessary context switching.
