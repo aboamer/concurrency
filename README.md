@@ -84,6 +84,14 @@
 | no timeout - no unit test - concurrent readers are serialized | allow threads to reenter their mutual exclusive sections (one key can open multiple locks, sothat we are not blocking the whole instance)|
 
 ### Legacy code containing shared mutability
+- Ensure any value passed to other methods is thread safe.
+- Use ScheduledThreadPoolExecutor for periodic tasks instead of using sleep.
+- By defaultm the executor threads are non-daemon - they should be explicitly shut down - or we may set them as daemon
+- check if you can replace synchronization with lock objects (Atomic Integer ....)
+- ReentrantReadWriteLock --> multiple concurrent readers or one exclusive writer (for atomicity of multiple mutable variables)
+- Don't create threads from within constructors - create them in static factory methods
+- Ensure access to mutable fields cross memory barrier
+- A pool of threads is better than creating threads manually.
 
 #### random thoughts
 - The number of concurrent threads for and app depends on the number of cores associated with its process.
@@ -97,4 +105,4 @@
 - OR, make everything immutable but use function composition.
 - Try to design for quick threads.
 - Countdownlatch --> coordination for taks have no results to return.
-- 
+
