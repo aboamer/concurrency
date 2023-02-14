@@ -34,6 +34,44 @@
 | wait,notify,join | require sync | cyclic barrier and countdownlatch |
 | synchronized | lacks granularity-no time out - no concurrent multiple readers - difficult to test | Lock interface |
 
+### Immutability
+#### Isolated immutability
+- vars are mutable, but never seen by more than one thread
+- ex: receive an immutable message OR change a local var that is well encapsulated
+
+#### Pure immutability
+- receive a value .. create a new one from the old
+
+#### Immutable DS
+- cannot be modified after creation, exception will be thrown when trying to call a modifying method
+
+#### Persistent DS
+- Preserve the previous version of itself when being modified (effectively immutable).
+- Allow updates and queries on any version.
+
+### Executor service
+- represents thread pool.
+- Could be single threaded - cached - priority based - scheduled - fixed size
+#### methods
+- invoke all --> schedule a list of tasks
+- invoke any --> schedule for one of the tasks to complete (ex: search for a value in a list)
+- execute/submit --> schedule a task
+- shut down --> complete current tasks and kill the pool
+- shut down now --> depends on the tasks to respond well to interruption
+
+### Exchanging data
+| data sharing type | class|
+| :---: | :---: |
+| single shared data | atomic classes|
+| 2 threads | exchanger class (synchronizatoin point, the faster is blocked until the slower catches up)|
+| bunch of data betw threads | Blocking queue (sync - priority - linked and array)|
+|Fork join pool | dynamically manages threads based on available processors and task demand (work stealing)|
+
+#### Fork join pool
+- To schedule tasks, provide instances of forkJoinTask to methods of forkJoinPool.
+- Very useful for probs that can be broken down recursively until small enough to run sequentially.
+- Tasks can be recursiveTask (return results), and recursiveAction (don't return results)
+
 #### random thoughts
 - The number of concurrent threads for and app depends on the number of cores associated with its process.
 - Multithreading will be useful when we have IO operations that block threads for a while. Otherwise, it will be unnecessary context switching.
@@ -44,5 +82,6 @@
 - Having immutable fields referring ti immutable instances has a better performance than being volatile.
 - Try to design around shared mutability: encapsulate mutable state well, and share only immutable data.
 - OR, make everything immutable but use function composition.
-
-
+- Try to design for quick threads.
+- Countdownlatch --> coordination for taks have no results to return.
+- 
